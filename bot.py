@@ -27,7 +27,7 @@ else:
     with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
         config = json.load(file)
 
-"""	
+"""
 Setup bot intents (events restrictions)
 For more information about intents, please go to the following websites:
 https://discordpy.readthedocs.io/en/latest/intents.html
@@ -68,7 +68,9 @@ It is recommended to use slash commands and therefore not use prefix commands.
 
 If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-# intents.message_content = True
+intents.message_content = True
+intents.bans = False
+intents.invites = False
 
 # Setup both of the loggers
 
