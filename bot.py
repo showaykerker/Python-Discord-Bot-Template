@@ -68,13 +68,16 @@ It is recommended to use slash commands and therefore not use prefix commands.
 
 If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-intents.message_content = True
+# intents.message_content = True
 intents.bans = False
 intents.invites = False
 
+"""
+Setup ignored cog extensions
+"""
+IGNORED_EXTENSIONS = ["owner", "moderation"]
+
 # Setup both of the loggers
-
-
 class LoggingFormatter(logging.Formatter):
     # Colors
     black = "\x1b[30m"
@@ -159,6 +162,8 @@ class DiscordBot(commands.Bot):
         """
         for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
             if file.endswith(".py"):
+                if file.replace(".py", "") in IGNORED_EXTENSIONS:
+                    continue
                 extension = file[:-3]
                 try:
                     await self.load_extension(f"cogs.{extension}")
@@ -168,6 +173,8 @@ class DiscordBot(commands.Bot):
                     self.logger.error(
                         f"Failed to load extension {extension}\n{exception}"
                     )
+
+    
 
     @tasks.loop(minutes=1.0)
     async def status_task(self) -> None:
